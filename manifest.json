@@ -18,10 +18,10 @@
         "default_popup": "popup.html"
       },
       "icons": {
-        "16": "assets/marketplaceIcon.jpg",
-        "32": "assets/marketplaceIcon.jpg",
-        "48": "assets/marketplaceIcon.jpg",
-        "128": "assets/marketplaceIcon.jpg"
+        "16": "assets/marketplaceIcon.png",
+        "32": "assets/marketplaceIcon.png",
+        "48": "assets/marketplaceIcon.png",
+        "128": "assets/marketplaceIcon.png"
       },
       "manifest_version":3
 }

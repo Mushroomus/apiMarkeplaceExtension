@@ -43,4 +43,6 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
       */
         document.getElementById("buttons").appendChild(buttonAdd);
     }
+    else
+        document.getElementById("buttons").innerHTML = "Need to be on Marketplace.tf";
 });
