@@ -1,0 +1,27 @@
+{
+    "name": "Marketplace Item Manage",
+    "version": "1.0",
+    "description": "Addition to Marketplace.tf",
+    "permissions": ["tabs"],
+    "background": {
+        "service_worker": "background.js"
+      },
+      "content_scripts": [
+        {
+          "matches": ["https://marketplace.tf/*"],
+          "js": ["contentScript.js"],
+          "run_at": "document_end"
+        }
+      ],
+      "action": {
+        "default_title": "Items",
+        "default_popup": "popup.html"
+      },
+      "icons": {
+        "16": "assets/marketplaceIcon.jpg",
+        "32": "assets/marketplaceIcon.jpg",
+        "48": "assets/marketplaceIcon.jpg",
+        "128": "assets/marketplaceIcon.jpg"
+      },
+      "manifest_version":3
+}
