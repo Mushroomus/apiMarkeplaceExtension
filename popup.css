@@ -1,0 +1,21 @@
+#buttons {
+    width: 300px;
+    height: 70px;
+}
+
+.btn {
+    background-color: DodgerBlue; /* Blue background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 15px 15px; /* Some padding */
+    font-size: 16px; /* Set a font size */
+    float: left;
+    border-radius: 2px;
+    margin-right: 10px;
+    visibility: visible;
+  }
+  
+  /* Darker background on mouse-over */
+  .btn:hover {
+    background-color: RoyalBlue;
+  }

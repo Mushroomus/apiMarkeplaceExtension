@@ -16,7 +16,7 @@ const options = {
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      if( request.message === "start" ) {
+      if( request.message === "addItem" ) {
         fetch(url, {
             method: "POST",
             mode: "no-cors",
