@@ -21,12 +21,26 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                 document.getElementsByClassName("btn")[2].style.visibility = "hidden";
         
                 document.getElementsByClassName("btn")[0].onclick = function () { 
-                    chrome.tabs.sendMessage(tabs[0].id, {"message": "addItem", "tabUrl": url}); 
+                    chrome.tabs.sendMessage(tabs[0].id, {"tabUrl": url}); 
                 };
             }
             else 
             {
                 document.getElementsByClassName("btn")[0].style.visibility = "hidden";
+
+                document.getElementsByClassName("btn")[1].onclick = function(){
+                    document.getElementById("name").value = data.data[0].name;
+                    document.getElementById("price").value = data.data[0].price;
+
+                    if(data.data[0].isCraftable == "0")
+                        document.getElementById("isCraftable").value = "No";
+                    else
+                        document.getElementById("isCraftable").value = "Yes";
+
+                    document.getElementById("type").value = data.data[0].type;
+                    document.getElementById("quality").value = data.data[0].quality;
+                    document.getElementById("class").value = data.data[0].class;
+                }
 
                 document.getElementsByClassName("btn")[2].onclick = function() {
                     fetch(apiSku, {
@@ -35,7 +49,7 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                           Accept: "application/json",
                           "Content-Type": "application/json;charset=UTF-8",
                         }
-                    })
+                    })   
                 }
             }
         })

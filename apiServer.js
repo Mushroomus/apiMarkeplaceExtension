@@ -21,7 +21,7 @@ app.use(express.json({
 app.get('/item/:sku', (req,res) => {
     try{
         var sku = req.params.sku;
-        let sql = "SELECT sku FROM Item WHERE sku = ?";
+        let sql = "SELECT name, price, isCraftable, type, quality, class FROM Item WHERE sku = ?";
 
         db.all(sql, [sku], (err,rows) => {
             if(err)
@@ -30,7 +30,7 @@ app.get('/item/:sku', (req,res) => {
             if(rows.length < 1)
                 return res.json({message: 'item does not exist'})
             else
-                return res.json({message: 'item exists'})
+                return res.json({message: 'item exists', data: rows})
         })
     } catch (error) {
         return res.json({status:400, success: false})
