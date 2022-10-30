@@ -1,5 +1,6 @@
 const express = require("express")
 const bodyParser = require("body-parser")
+const cors = require('cors')
 const app = express()
 const sqlite = require("sqlite3").verbose();
 
@@ -8,10 +9,14 @@ const db = new sqlite.Database("./priceCheckerDatabase.db", sqlite.OPEN_READWRIT
         return console.error(err)
 })
 
-//app.use(bodyParser.json())
+app.use(cors())
+var jsonParser = bodyParser.json()
+
+/*
 app.use(express.json({
     type: ['application/json', 'text/plain']
   }))
+*/
 
 app.get('/item/:sku', (req,res) => {
     try{
@@ -73,12 +78,13 @@ app.patch("/item/:sku", (req,res) => {
     }
 })
 
-app.post('/item', (req,res) => {
+app.post('/item', jsonParser, (req,res) => {
     try{
-        const { sku, name, price, isCraftable, quality } = req.body
+        const { sku, name, price, isCraftable, type, quality } = req.body
+
         let sql = "INSERT INTO Item VALUES(?,?,?,?,?,?,?)"
 
-        db.run(sql, [sku, name, price, isCraftable, 'ext', quality, 'ext'], err =>{
+        db.run(sql, [sku, name, price, isCraftable, type, quality, 'ext'], err =>{
             if(err)
                 return res.json({ status: 300, success: false, error: err })
             else{
