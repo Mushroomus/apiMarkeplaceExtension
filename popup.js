@@ -1,7 +1,17 @@
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      if (request.message == 'Item was added')
+        window.location.reload();
+      else
+        document.getElementById("labelInfo").innerHTML = request.message;
+    }
+  );
+
 chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     
     var url = tabs[0].url;
     var apiSku = "http://localhost:3000/item/" + url.replace('https://marketplace.tf/items/tf2/', '');
+    var label = document.getElementById("labelInfo");
     
     if( url.includes("https://marketplace.tf/items/tf2/"))
     {
@@ -23,14 +33,13 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                 document.getElementsByClassName("btn")[2].style.display = "none";
 
                 document.getElementsByClassName("btn")[0].onclick = function () { 
-                    chrome.tabs.sendMessage(tabs[0].id, {"tabUrl": url}); 
-                    window.location.reload();
+                    chrome.tabs.sendMessage(tabs[0].id, {"tabUrl": url})
                 };
             }
             else 
             {
-                document.getElementById("updateForm").style.display = "none";
                 document.body.style.height = '60px';
+                document.getElementById("updateForm").style.display = "none";
 
                 document.getElementsByClassName("btn")[0].style.display = "none";
 
@@ -71,7 +80,14 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                                 "quality": document.getElementById("quality").value,
                                 "classItem": document.getElementById("class").value
                               })
-                        }) 
+                        })
+                        .then( (response) => response.json())
+                        .then( (data) => { label.innerHTML = data.message })
+                    }
+
+                    document.getElementById("cancel").onclick = function() {
+                        document.getElementById("updateForm").style.display = "none";
+                        document.body.style.height = '60px';
                     }
                 }
 
@@ -82,8 +98,14 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                           Accept: "application/json",
                           "Content-Type": "application/json;charset=UTF-8",
                         }
-                    })              
-                    window.location.reload();
+                    })
+                    .then( (response) => response.json())
+                        .then( (data) => { 
+                            if(data.message == 'Item was deleted')
+                                window.location.reload();
+                            else
+                                label.innerHTML == 'Something went wrong';
+                         })     
                 }
             }
         })

@@ -12,12 +12,6 @@ const db = new sqlite.Database("./priceCheckerDatabase.db", sqlite.OPEN_READWRIT
 app.use(cors())
 var jsonParser = bodyParser.json()
 
-/*
-app.use(express.json({
-    type: ['application/json', 'text/plain']
-  }))
-*/
-
 app.get('/item/:sku', (req,res) => {
     try{
         var sku = req.params.sku;
@@ -33,7 +27,7 @@ app.get('/item/:sku', (req,res) => {
                 return res.json({message: 'item exists', data: rows})
         })
     } catch (error) {
-        return res.json({status:400, success: false})
+        return res.json({ message: 'Something went wrong', status:400, success: false})
     }
 })
 
@@ -44,67 +38,30 @@ app.delete('/item/:sku' , (req,res) => {
 
         db.run(sql, [], err => {
             if(err)
-                return res.json({ status: 300, success: false, error: err })
+                return res.json({ message: 'Something went wrong', status: 300, success: false, error: err })
             else
-                return res.json({ status: 200, success: true })
+                return res.json({ message: 'Item was deleted', status: 200, success: true })
         })
     }catch (error){
-        return res.json({status:400, success: false})
+        return res.json({ message: 'Something went wrong', status:400, success: false})
     }
 })
 
 app.put("/item/:sku", jsonParser, (req,res) => {
     try{
-        console.log(req.body);
         const { name, price, isCraftable, type, quality, classItem } = req.body;
         var sku = req.params.sku;
-        console.log(sku);
-        //let sql = "UPDATE Item SET name = ?, price = ?, isCraftable = ?, type = ?, quality = ?, class = ? WHERE sku = ?";
 
         let sql = "UPDATE Item SET name = ?, price = ?, isCraftable = ?, type = ?, quality = ?, class = ? WHERE sku = ?";
         db.run(sql, [name,price, isCraftable,type, quality, classItem,sku], err => {
             if(err)
-            {
-                console.log("300");
-                return res.json({ status: 300, success: false, error: err })
-            }
-            else{
-                console.log("200");
-                return res.json({
-                    status: 200,
-                    success: true
-                })
-            }
+                return res.json({ message: 'Something went wrong', status: 300, success: false, error: err })
+            else
+                return res.json({ message: 'Item was updated', status: 200, success: true })
         })
-        }catch{
-            return res.json({
-                status: 400,
-                success: false
-            })
-        }
-
-        /*
-        db.run(sql, [name,price,isCraftable,type,quality,classItem,sku], err => {
-            if(err)
-            {
-                console.log("300");
-                return res.json({ status: 300, success: false, error: err })
-            }
-            else{
-                console.log("200");
-                return res.json({
-                    status: 200,
-                    success: true
-                })
-            }
-        })
-    }catch{
-        return res.json({
-            status: 400,
-            success: false
-        })
+    }catch (error) {
+        return res.json({ message: 'Something went wrong', status: 400, success: false })
     }
-    */
 })
 
 app.post('/item', jsonParser, (req,res) => {
@@ -114,19 +71,12 @@ app.post('/item', jsonParser, (req,res) => {
 
         db.run(sql, [sku, name, price, isCraftable, type, quality, 'ext'], err =>{
             if(err)
-                return res.json({ status: 300, success: false, error: err })
-            else{
-                return res.json({
-                    status: 200,
-                    success: true
-                })
-            }
+                return res.json({ message: 'Something went wrong', status: 300, success: false, error: err })
+            else
+                return res.json({ message: 'Item was added', status: 200, success: true })
         })
     }catch(error){
-        return res.json({
-            status: 400,
-            success: false
-        })
+        return res.json({ message: 'Something went wrong', status: 400, success: false })
     }
 })
 app.listen(3000)

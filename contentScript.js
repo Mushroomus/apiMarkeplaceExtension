@@ -2,7 +2,6 @@ const url = "http://localhost:3000/item";
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      console.log("test");
       var tabUrl = request.tabUrl;
       var isCraftable = "1";
       var sku = tabUrl.replace('https://marketplace.tf/items/tf2/', '');
@@ -81,5 +80,8 @@ chrome.runtime.onMessage.addListener(
               "quality": quality
             })
         })
-    }
-  );
+        .then((response)=> response.json())
+        .then( (data) => {
+          chrome.runtime.sendMessage({message: data.message})
+          });
+        })
