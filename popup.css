@@ -1,9 +1,9 @@
 body {
   width: 300px;
-  
+  height: 60px;
 }
 
-input[type=text], select {
+#update, select, input {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -13,7 +13,7 @@ input[type=text], select {
   box-sizing: border-box;
 }
 
-input[type=submit] {
+#update {
   width: 100%;
   background-color: #4CAF50;
   color: white;
@@ -24,7 +24,7 @@ input[type=submit] {
   cursor: pointer;
 }
 
-input[type=submit]:hover {
+#update:hover {
   background-color: #45a049;
 }
 
@@ -42,15 +42,26 @@ div {
 */
 
 .btn {
-    background-color: DodgerBlue; /* Blue background */
     border: none; /* Remove borders */
     color: white; /* White text */
-    padding: 15px 15px; /* Some padding */
+    padding: 15px 15px;  /* Some padding */
     font-size: 16px; /* Set a font size */
     float: left;
     border-radius: 2px;
     margin-right: 10px;
-    visibility: visible;
+    margin-top: -16px;
+  }
+
+  #add {
+    background-color: rgb(6, 165, 67); /* Blue background */
+  }
+
+  #edit {
+    background-color: DodgerBlue;;
+  }
+
+  #remove {
+    background-color: rgb(189, 11, 11);
   }
   
   /* Darker background on mouse-over */

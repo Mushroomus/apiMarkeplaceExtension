@@ -1,4 +1,3 @@
-
 chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     
     var url = tabs[0].url;
@@ -17,18 +16,29 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
         .then( (data) => {
             if(data.message == "item does not exist")
             {
-                document.getElementsByClassName("btn")[1].style.visibility = "hidden";
-                document.getElementsByClassName("btn")[2].style.visibility = "hidden";
-        
+                document.getElementById("updateForm").style.display = "none";
+                document.body.style.height = '60px';
+
+                document.getElementsByClassName("btn")[1].style.display = "none";
+                document.getElementsByClassName("btn")[2].style.display = "none";
+
                 document.getElementsByClassName("btn")[0].onclick = function () { 
                     chrome.tabs.sendMessage(tabs[0].id, {"tabUrl": url}); 
+                    window.location.reload();
                 };
             }
             else 
             {
-                document.getElementsByClassName("btn")[0].style.visibility = "hidden";
+                document.getElementById("updateForm").style.display = "none";
+                document.body.style.height = '60px';
+
+                document.getElementsByClassName("btn")[0].style.display = "none";
 
                 document.getElementsByClassName("btn")[1].onclick = function(){
+
+                    document.getElementById("updateForm").style.display = "block";
+                    document.body.style.height = '600px';
+
                     document.getElementById("name").value = data.data[0].name;
                     document.getElementById("price").value = data.data[0].price;
 
@@ -40,6 +50,29 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                     document.getElementById("type").value = data.data[0].type;
                     document.getElementById("quality").value = data.data[0].quality;
                     document.getElementById("class").value = data.data[0].class;
+
+                    document.getElementById("update").onclick = function(){
+
+                        var isCraftable = "1";
+
+                        if(document.getElementById("isCraftable") == "No")
+                            isCraftable = "0";
+
+                        fetch(apiSku, {
+                            method: "PUT",
+                            headers: {
+                              Accept: "application/json",
+                              "Content-Type": "application/json;charset=UTF-8",
+                            }, body: JSON.stringify({
+                                "name": document.getElementById("name").value,
+                                "price": parseFloat(document.getElementById("price").value),
+                                "isCraftable": isCraftable,
+                                "type": document.getElementById("type").value,
+                                "quality": document.getElementById("quality").value,
+                                "classItem": document.getElementById("class").value
+                              })
+                        }) 
+                    }
                 }
 
                 document.getElementsByClassName("btn")[2].onclick = function() {
@@ -49,7 +82,8 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                           Accept: "application/json",
                           "Content-Type": "application/json;charset=UTF-8",
                         }
-                    })   
+                    })              
+                    window.location.reload();
                 }
             }
         })

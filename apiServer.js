@@ -53,17 +53,45 @@ app.delete('/item/:sku' , (req,res) => {
     }
 })
 
-app.patch("/item/:sku", (req,res) => {
+app.put("/item/:sku", jsonParser, (req,res) => {
     try{
+        console.log(req.body);
         const { name, price, isCraftable, type, quality, classItem } = req.body;
         var sku = req.params.sku;
-        let sql = "UPDATE Item SET name = ?, price = ?, isCraftable = ?, type = ?, quality = ?, class = ? WHERE sku = ?";
+        console.log(sku);
+        //let sql = "UPDATE Item SET name = ?, price = ?, isCraftable = ?, type = ?, quality = ?, class = ? WHERE sku = ?";
 
-        db.run(sql, [name,price,isCraftable,type,quality,classItem,sku], err => {
-            console.log(sql);
+        let sql = "UPDATE Item SET name = ?, price = ?, isCraftable = ?, type = ?, quality = ?, class = ? WHERE sku = ?";
+        db.run(sql, [name,price, isCraftable,type, quality, classItem,sku], err => {
             if(err)
+            {
+                console.log("300");
                 return res.json({ status: 300, success: false, error: err })
+            }
             else{
+                console.log("200");
+                return res.json({
+                    status: 200,
+                    success: true
+                })
+            }
+        })
+        }catch{
+            return res.json({
+                status: 400,
+                success: false
+            })
+        }
+
+        /*
+        db.run(sql, [name,price,isCraftable,type,quality,classItem,sku], err => {
+            if(err)
+            {
+                console.log("300");
+                return res.json({ status: 300, success: false, error: err })
+            }
+            else{
+                console.log("200");
                 return res.json({
                     status: 200,
                     success: true
@@ -76,12 +104,12 @@ app.patch("/item/:sku", (req,res) => {
             success: false
         })
     }
+    */
 })
 
 app.post('/item', jsonParser, (req,res) => {
     try{
         const { sku, name, price, isCraftable, type, quality } = req.body
-
         let sql = "INSERT INTO Item VALUES(?,?,?,?,?,?,?)"
 
         db.run(sql, [sku, name, price, isCraftable, type, quality, 'ext'], err =>{

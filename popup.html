@@ -9,18 +9,17 @@
 </head>
 <body>
     <div id="buttons">
-        <button class="btn"><i class="fa fa-plus"></i></button>
-        <button class="btn"><i class="fa fa-pencil"></i></button>
-        <button class="btn"><i class="fa fa-close"></i></button><br>
+        <button id = "add" class="btn"><i class="fa fa-plus" disabled></i></button>
+        <button id = "edit" class="btn"><i class="fa fa-pencil" disabled></i></button>
+        <button id = "remove" class="btn"><i class="fa fa-close" disabled></i></button><br>
     </div>   
     
-    <div>
-        <form action="/action_page.php">
-          <label for="name">Name</label>
+    <div id = "updateForm">
+          <label for="name">Name</label><br>
           <input type="text" id="name" name="name" placeholder="Item name.."><br>
       
-          <label for="price">Price</label>
-          <input type="number" step = "0.01" min = "0.01" id="price" name="price" placeholder="Item price.."><br><br>
+          <label for="price">Price</label><br>
+          <input type="number" step = "0.01" min = "0.01" id="price" name="price" placeholder="Item price.."><br>
       
           <label for="isCraftable">Craftable</label>
           <select id="isCraftable" name="isCraftable">
@@ -67,8 +66,7 @@
             <option value="sync">sync</option>
           </select>
         
-          <input type="submit" value="Submit">
-        </form>
+          <button id="update">Update</button>
       </div>
 
     <script src="popup.js"></script>
