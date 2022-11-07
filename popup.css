@@ -3,6 +3,10 @@ body {
   height: 60px;
 }
 
+#updateForm {
+  display: none;
+}
+
 #update, select, input {
   width: 100%;
   padding: 12px 20px;
@@ -44,10 +48,14 @@ div {
   padding: 20px;
 }
 
-#labelInfo{
+#buttons {
+  text-align: center;
+  vertical-align: center;
+}
+
+#spanInfo{
   font-size: medium;
-  float: left;
-  vertical-align: middle;
+  float: right;
 }
 
 .btn {
@@ -63,14 +71,17 @@ div {
 
   #add {
     background-color: rgb(6, 165, 67); 
+    display: none;
   }
 
   #edit {
-    background-color: DodgerBlue;;
+    background-color: DodgerBlue;
+    display: none;
   }
 
   #remove {
     background-color: rgb(189, 11, 11);
+    display: none;
   }
 
   #add:hover {

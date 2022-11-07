@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener(
       if (request.message == 'Item was added')
         window.location.reload();
       else{
-        var label = document.getElementById("labelInfo");
+        var label = document.getElementById("spanInfo");
         labelSet(label, request.message);
       }
     }
@@ -13,7 +13,7 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     
     var url = tabs[0].url;
     var apiSku = "http://localhost:3000/item/" + url.replace('https://marketplace.tf/items/tf2/', '');
-    var label = document.getElementById("labelInfo");
+    var label = document.getElementById("spanInfo");
     
     if( url.includes("https://marketplace.tf/items/tf2/"))
     {
@@ -29,10 +29,8 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
             if(data.message == "item does not exist")
             {
                 document.getElementById("updateForm").style.display = "none";
+                document.getElementById("add").style.display = "block";
                 document.body.style.height = '60px';
-
-                document.getElementsByClassName("btn")[1].style.display = "none";
-                document.getElementsByClassName("btn")[2].style.display = "none";
 
                 document.getElementsByClassName("btn")[0].onclick = function () { 
                     chrome.tabs.sendMessage(tabs[0].id, {"tabUrl": url})
@@ -41,9 +39,8 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
             else
             {
                 document.body.style.height = '60px';
-                document.getElementById("updateForm").style.display = "none";
-
-                document.getElementsByClassName("btn")[0].style.display = "none";
+                document.getElementById("edit").style.display = "block";
+                document.getElementById("remove").style.display = "block";
 
                 document.getElementsByClassName("btn")[1].onclick = function(){
 
