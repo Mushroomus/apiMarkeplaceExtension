@@ -2,8 +2,10 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       if (request.message == 'Item was added')
         window.location.reload();
-      else
-        document.getElementById("labelInfo").innerHTML = request.message;
+      else{
+        var label = document.getElementById("labelInfo");
+        labelSet(label, request.message);
+      }
     }
   );
 
@@ -82,7 +84,7 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                               })
                         })
                         .then( (response) => response.json())
-                        .then( (data) => { label.innerHTML = data.message })
+                        .then( (data) => { labelSet(label, data.message) })
                     }
 
                     document.getElementById("cancel").onclick = function() {
@@ -104,12 +106,25 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                             if(data.message == 'Item was deleted')
                                 window.location.reload();
                             else
-                                label.innerHTML == 'Something went wrong';
+                                labelSet(label, data.message);
                          })     
                 }
             }
         })
     }
     else
-        document.getElementById("buttons").innerHTML = "Need to be on Marketplace.tf";
+    {
+        document.getElementById("updateForm").style.display = "none";
+        document.getElementById("buttons").innerHTML = "Select an Item on Marketplace.tf";
+        document.getElementById("buttons").style.fontSize = "medium";
+    }
 });
+
+function labelSet(label, text) {
+    label.style.display = 'block';
+    label.innerHTML = text;
+
+    setTimeout(() => {
+        label.style.display = 'none';
+    }, 3000);
+}

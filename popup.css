@@ -44,6 +44,12 @@ div {
   padding: 20px;
 }
 
+#labelInfo{
+  font-size: medium;
+  float: left;
+  vertical-align: middle;
+}
+
 .btn {
     border: none; 
     color: white; 
