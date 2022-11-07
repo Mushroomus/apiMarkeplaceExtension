@@ -38,7 +38,7 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                     chrome.tabs.sendMessage(tabs[0].id, {"tabUrl": url})
                 };
             }
-            else 
+            else
             {
                 document.body.style.height = '60px';
                 document.getElementById("updateForm").style.display = "none";
@@ -110,6 +110,10 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                          })     
                 }
             }
+        })
+        .catch(() => {
+            document.getElementById("updateForm").style.display = "none";
+            document.getElementById("buttons").innerHTML = "Something went wrong";
         })
     }
     else
