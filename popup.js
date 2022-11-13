@@ -9,14 +9,22 @@ chrome.runtime.onMessage.addListener(
     }
   );
 
+  updateItem = {
+    sku : "",
+    name: "",
+    price: "",
+    isCraftable: "",
+    type: "",
+    quality: ""
+  }
+  
 chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     
     var url = tabs[0].url;
     var apiSku = "http://localhost:3000/item/" + url.replace('https://marketplace.tf/items/tf2/', '');
     var label = document.getElementById("spanInfo");
     
-    if( url.includes("https://marketplace.tf/items/tf2/"))
-    {
+    if( url.includes("https://marketplace.tf/items/tf2/")){
         fetch(apiSku, {
             method: "GET",
             headers: {
@@ -26,8 +34,7 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
         })
         .then( (response) => response.json())
         .then( (data) => {
-            if(data.message == "item does not exist")
-            {
+            if(data.message == "item does not exist"){
                 document.getElementById("updateForm").style.display = "none";
                 document.getElementById("add").style.display = "block";
                 document.body.style.height = '60px';
@@ -36,8 +43,7 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                     chrome.tabs.sendMessage(tabs[0].id, {"tabUrl": url})
                 };
             }
-            else
-            {
+            else{
                 document.body.style.height = '60px';
                 document.getElementById("edit").style.display = "block";
                 document.getElementById("remove").style.display = "block";
@@ -47,23 +53,23 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                     document.getElementById("updateForm").style.display = "block";
                     document.body.style.height = '600px';
 
-                    // get the actual data - every time after update to do not assign old data
-                    fetch(apiSku, {
-                        method: "GET",
-                        headers: {
-                          Accept: "application/json",
-                          "Content-Type": "application/json;charset=UTF-8",
-                        }
-                    })
-                    .then( (response) => response.json())
-                    .then( (dataUpdate) => {
-                        document.getElementById("name").value = dataUpdate.data[0].name;
-                        document.getElementById("price").value = dataUpdate.data[0].price;
-                        document.getElementById("isCraftable").value = dataUpdate.data[0].isCraftable;
-                        document.getElementById("type").value = dataUpdate.data[0].type;
-                        document.getElementById("quality").value = dataUpdate.data[0].quality;
-                        document.getElementById("class").value = dataUpdate.data[0].class;
-                    });
+                    // get the actual data - every time after update to do not assign old fetched data
+                    if(updateItem.name == ""){
+                        document.getElementById("name").value = data.data[0].name;
+                        document.getElementById("price").value = data.data[0].price;
+                        document.getElementById("isCraftable").value = data.data[0].isCraftable;
+                        document.getElementById("type").value = data.data[0].type;
+                        document.getElementById("quality").value = data.data[0].quality;
+                        document.getElementById("class").value = data.data[0].class;
+                    }
+                    else{
+                        document.getElementById("name").value = updateItem.name;
+                        document.getElementById("price").value = updateItem.price;
+                        document.getElementById("isCraftable").value = updateItem.isCraftable;
+                        document.getElementById("type").value = updateItem.type;
+                        document.getElementById("quality").value = updateItem.quality;
+                        document.getElementById("class").value = updateItem.class;
+                    }
 
                     document.getElementById("update").onclick = function(){
                         fetch(apiSku, {
@@ -81,7 +87,15 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                               })
                         })
                         .then( (response) => response.json())
-                        .then( (data) => { labelSet(label, data.message); })
+                        .then( (data) => { 
+                            labelSet(label, data.message),
+                            updateItem.name = document.getElementById("name").value;
+                            updateItem.price = document.getElementById("price").value;
+                            updateItem.isCraftable = document.getElementById("isCraftable").value;
+                            updateItem.type = document.getElementById("type").value;
+                            updateItem.quality = document.getElementById("quality").value;
+                            updateItem.class = document.getElementById("class").value;                    
+                        })
                     }
 
                     document.getElementById("cancel").onclick = function() {
