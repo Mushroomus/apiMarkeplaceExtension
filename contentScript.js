@@ -3,7 +3,7 @@ const url = "http://localhost:3000/item";
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       var tabUrl = request.tabUrl;
-      var isCraftable = "1";
+      var isCraftable = "Yes";
       var sku = tabUrl.replace('https://marketplace.tf/items/tf2/', '');
       var type = "ext";
       var quality = "Unique";
@@ -64,7 +64,7 @@ chrome.runtime.onMessage.addListener(
 
 
       if(tabUrl.includes("uncraftable"))
-        isCraftable = "0";
+        isCraftable = "No";
 
         fetch(url, {
             method: "POST",

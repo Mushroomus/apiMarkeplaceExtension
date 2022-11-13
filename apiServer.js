@@ -3,8 +3,19 @@ const bodyParser = require("body-parser")
 const cors = require('cors')
 const app = express()
 const sqlite = require("sqlite3").verbose();
+const fs = require('fs')
 
-const db = new sqlite.Database("./priceCheckerDatabase.db", sqlite.OPEN_READWRITE, (err) => {
+let config = null
+try {
+    config = JSON.parse(fs.readFileSync('config.json'))
+} catch(ex) {
+    console.error('Error reading configuration:', ex.message)
+    process.exit(0)
+}
+
+console.log(config.dbLocation);
+
+const db = new sqlite.Database(config.dbLocation, sqlite.OPEN_READWRITE, (err) => {
     if(err)
         return console.error(err)
 })

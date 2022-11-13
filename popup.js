@@ -47,25 +47,25 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                     document.getElementById("updateForm").style.display = "block";
                     document.body.style.height = '600px';
 
-                    document.getElementById("name").value = data.data[0].name;
-                    document.getElementById("price").value = data.data[0].price;
-
-                    if(data.data[0].isCraftable == "0")
-                        document.getElementById("isCraftable").value = "No";
-                    else
-                        document.getElementById("isCraftable").value = "Yes";
-
-                    document.getElementById("type").value = data.data[0].type;
-                    document.getElementById("quality").value = data.data[0].quality;
-                    document.getElementById("class").value = data.data[0].class;
+                    // get the actual data - every time after update to do not assign old data
+                    fetch(apiSku, {
+                        method: "GET",
+                        headers: {
+                          Accept: "application/json",
+                          "Content-Type": "application/json;charset=UTF-8",
+                        }
+                    })
+                    .then( (response) => response.json())
+                    .then( (dataUpdate) => {
+                        document.getElementById("name").value = dataUpdate.data[0].name;
+                        document.getElementById("price").value = dataUpdate.data[0].price;
+                        document.getElementById("isCraftable").value = dataUpdate.data[0].isCraftable;
+                        document.getElementById("type").value = dataUpdate.data[0].type;
+                        document.getElementById("quality").value = dataUpdate.data[0].quality;
+                        document.getElementById("class").value = dataUpdate.data[0].class;
+                    });
 
                     document.getElementById("update").onclick = function(){
-
-                        var isCraftable = "1";
-
-                        if(document.getElementById("isCraftable") == "No")
-                            isCraftable = "0";
-
                         fetch(apiSku, {
                             method: "PUT",
                             headers: {
@@ -74,14 +74,14 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                             }, body: JSON.stringify({
                                 "name": document.getElementById("name").value,
                                 "price": parseFloat(document.getElementById("price").value),
-                                "isCraftable": isCraftable,
+                                "isCraftable": document.getElementById("isCraftable").value,
                                 "type": document.getElementById("type").value,
                                 "quality": document.getElementById("quality").value,
                                 "classItem": document.getElementById("class").value
                               })
                         })
                         .then( (response) => response.json())
-                        .then( (data) => { labelSet(label, data.message) })
+                        .then( (data) => { labelSet(label, data.message); })
                     }
 
                     document.getElementById("cancel").onclick = function() {
@@ -108,18 +108,17 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                 }
             }
         })
-        .catch(() => {
-            document.getElementById("updateForm").style.display = "none";
-            document.getElementById("buttons").innerHTML = "Something went wrong";
-        })
+        .catch(() => { buttonsInnerHTML("Something went wrong") })
     }
     else
-    {
-        document.getElementById("updateForm").style.display = "none";
-        document.getElementById("buttons").innerHTML = "Select an Item on Marketplace.tf";
-        document.getElementById("buttons").style.fontSize = "medium";
-    }
+        buttonsInnerHTML("Select an Item on Marketplace.tf")
 });
+
+function buttonsInnerHTML(text){
+    document.getElementById("updateForm").style.display = "none";
+    document.getElementById("buttons").innerHTML = text;
+    document.getElementById("buttons").style.fontSize = "medium";
+}
 
 function labelSet(label, text) {
     label.style.display = 'block';
