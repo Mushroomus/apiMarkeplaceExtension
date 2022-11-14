@@ -88,7 +88,7 @@ chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
                         })
                         .then( (response) => response.json())
                         .then( (data) => { 
-                            labelSet(label, data.message),
+                            labelSet(label, data.message);
                             updateItem.name = document.getElementById("name").value;
                             updateItem.price = document.getElementById("price").value;
                             updateItem.isCraftable = document.getElementById("isCraftable").value;
