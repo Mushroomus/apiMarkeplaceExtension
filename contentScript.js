@@ -5,7 +5,7 @@ chrome.runtime.onMessage.addListener(
       var tabUrl = request.tabUrl;
       var isCraftable = "Yes";
       var sku = tabUrl.replace('https://marketplace.tf/items/tf2/', '');
-      var type = "ext";
+      var type = "Ext";
       var quality = "Unique";
       var price = parseFloat( document.body.getElementsByClassName("current-bid-amount")[0].innerHTML.replace(' each', '').replace('$','') );
 

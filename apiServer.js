@@ -80,7 +80,7 @@ app.post('/item', jsonParser, (req,res) => {
         const { sku, name, price, isCraftable, type, quality } = req.body
         let sql = "INSERT INTO Item VALUES(?,?,?,?,?,?,?)"
 
-        db.run(sql, [sku, name, price, isCraftable, type, quality, 'ext'], err =>{
+        db.run(sql, [sku, name, price, isCraftable, type, quality, 'Ext'], err =>{
             if(err)
                 return res.json({ message: 'Something went wrong', status: 300, success: false, error: err })
             else
