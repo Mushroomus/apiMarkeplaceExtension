@@ -140,70 +140,6 @@ var jsonParser = bodyParser.json();
  *         examples:
  *           application/json:
  *             message: "Error occured"
- *
- *   post:
- *     summary: Create item by SKU
- *     description: Create item by SKU.
- *     tags: [Item]
- *     parameters:
- *       - in: body
- *         name: body
- *         description: Request payload for creating an item.
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             sku:
- *               type: string
- *               default: "123;4"
- *             name:
- *               type: string
- *               default: "Item Name"
- *             price:
- *               type: number
- *               default: 0.00
- *             isCraftable:
- *               type: string
- *               default: "No"
- *             type:
- *               type: string
- *               default: "Cosmetics"
- *             quality:
- *               type: string
- *               default: "Genuine"
- *             classItem:
- *               type: string
- *               default: "Pyro"
- *     responses:
- *       200:
- *         description: Returns message that item was created
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Item created"
- *                   description: A message indicating the return message.
- *         examples:
- *           application/json:
- *             message: "Item created"
- *       500:
- *         description: Server error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "Error occured"
- *                   description: A message indicating the return message.
- *         examples:
- *           application/json:
- *             message: "Error occured"
- *
  *   put:
  *     summary: Update item by SKU
  *     description: Update item by SKU.
@@ -310,7 +246,71 @@ var jsonParser = bodyParser.json();
  *         examples:
  *           application/json:
  *             message: "Error occured"
+ * /item:
+ *   post:
+ *     summary: Create item by SKU
+ *     description: Create item by SKU.
+ *     tags: [Item]
+ *     parameters:
+ *       - in: body
+ *         name: body
+ *         description: Request payload for creating an item.
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             sku:
+ *               type: string
+ *               default: "123;4"
+ *             name:
+ *               type: string
+ *               default: "Item Name"
+ *             price:
+ *               type: number
+ *               default: 0.00
+ *             isCraftable:
+ *               type: string
+ *               default: "No"
+ *             type:
+ *               type: string
+ *               default: "Cosmetics"
+ *             quality:
+ *               type: string
+ *               default: "Genuine"
+ *             classItem:
+ *               type: string
+ *               default: "Pyro"
+ *     responses:
+ *       200:
+ *         description: Returns message that item was created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Item created"
+ *                   description: A message indicating the return message.
+ *         examples:
+ *           application/json:
+ *             message: "Item created"
+ *       500:
+ *         description: Server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Error occured"
+ *                   description: A message indicating the return message.
+ *         examples:
+ *           application/json:
+ *             message: "Error occured"
  */
+
 app.get("/item/:sku", (req, res) => {
   try {
     var sku = req.params.sku;
