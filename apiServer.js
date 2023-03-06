@@ -89,7 +89,7 @@ var jsonParser = bodyParser.json();
  *                         description: Indicates whether the item is craftable or not.
  *                       type:
  *                         type: string
- *                         example: "Cosmetics"
+ *                         example: "Hat"
  *                         description: Type of the item.
  *                       quality:
  *                         type: string
@@ -101,13 +101,13 @@ var jsonParser = bodyParser.json();
  *                         description: Class of the item.
  *         examples:
  *           application/json:
- *             message: "Item was found"
+ *             message: "Item found"
  *             data : [
  *               {
  *                 "name": "Fancy Fedora",
  *                 "price": 3.12,
  *                 "isCraftable": "Yes",
- *                 "type": "Cosmetics",
+ *                 "type": "Hat",
  *                 "quality": "Unique",
  *                 "class": "Spy"
  *               }
@@ -135,11 +135,11 @@ var jsonParser = bodyParser.json();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Error occured"
+ *                   example: "Something went wrong"
  *                   description: A message indicating the return message.
  *         examples:
  *           application/json:
- *             message: "Error occured"
+ *             message: "Something went wrong"
  *   put:
  *     summary: Update item by SKU
  *     description: Update item by SKU.
@@ -169,7 +169,7 @@ var jsonParser = bodyParser.json();
  *               default: "Yes"
  *             type:
  *               type: string
- *               default: "Cosmetics"
+ *               default: "Hat"
  *             quality:
  *               type: string
  *               default: "Vintage"
@@ -200,11 +200,11 @@ var jsonParser = bodyParser.json();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Error occured"
+ *                   example: "Something went wrong"
  *                   description: A message indicating the return message.
  *         examples:
  *           application/json:
- *             message: "Error occured"
+ *             message: "Something went wrong"
  *
  *   delete:
  *     summary: Delete item by SKU
@@ -241,15 +241,15 @@ var jsonParser = bodyParser.json();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Error occured"
+ *                   example: "Something went wrong"
  *                   description: A message indicating the return message.
  *         examples:
  *           application/json:
- *             message: "Error occured"
+ *             message: "Something went wrong"
  * /item:
  *   post:
- *     summary: Create item by SKU
- *     description: Create item by SKU.
+ *     summary: Create item
+ *     description: Create item.
  *     tags: [Item]
  *     parameters:
  *       - in: body
@@ -273,7 +273,7 @@ var jsonParser = bodyParser.json();
  *               default: "No"
  *             type:
  *               type: string
- *               default: "Cosmetics"
+ *               default: "Hat"
  *             quality:
  *               type: string
  *               default: "Genuine"
@@ -304,11 +304,11 @@ var jsonParser = bodyParser.json();
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Error occured"
+ *                   example: "Something went wrong"
  *                   description: A message indicating the return message.
  *         examples:
  *           application/json:
- *             message: "Error occured"
+ *             message: "Something went wrong"
  */
 
 app.get("/item/:sku", (req, res) => {
@@ -318,15 +318,14 @@ app.get("/item/:sku", (req, res) => {
       "SELECT name, price, isCraftable, type, quality, class FROM Item WHERE sku = ?";
 
     db.all(sql, [sku], (err, rows) => {
-      if (err) return res.status(500).json({ message: "Error occured" });
+      if (err) return res.status(500).json({ message: "Something went wrong" });
 
       if (rows.length < 1)
         return res.status(402).json({ message: "Item not found" });
-      else
-        return res.status(200).json({ message: "Item was found", data: rows });
+      else return res.status(200).json({ message: "Item found", data: rows });
     });
   } catch (error) {
-    return res.status(500).json({ message: "Error occured" });
+    return res.status(500).json({ message: "Something went wrong" });
   }
 });
 
@@ -338,7 +337,7 @@ app.delete("/item/:sku", (req, res) => {
     db.run(sql, [], (err) => {
       if (err)
         return res.status(500).json({
-          message: "Error occured",
+          message: "Something went wrong",
         });
       else
         return res.status(200).json({
@@ -347,7 +346,7 @@ app.delete("/item/:sku", (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({
-      message: "Error occured",
+      message: "Something went wrong",
     });
   }
 });
@@ -365,7 +364,7 @@ app.put("/item/:sku", jsonParser, (req, res) => {
       (err) => {
         if (err)
           return res.status(500).json({
-            message: "Error occured",
+            message: "Something went wrong",
           });
         else
           return res.status(200).json({
@@ -375,7 +374,7 @@ app.put("/item/:sku", jsonParser, (req, res) => {
     );
   } catch (error) {
     return res.status(500).json({
-      message: "Error occured",
+      message: "Something went wrong",
     });
   }
 });
@@ -391,7 +390,7 @@ app.post("/item", jsonParser, (req, res) => {
       (err) => {
         if (err)
           return res.status(500).json({
-            message: "Error occured",
+            message: "Something went wrong",
           });
         else
           return res.status(200).json({
@@ -401,7 +400,7 @@ app.post("/item", jsonParser, (req, res) => {
     );
   } catch (error) {
     return res.status(500).json({
-      message: "Error occured",
+      message: "Something went wrong",
     });
   }
 });
